@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,7 +13,18 @@ function IndexScreen({ navigation }) {
   const {
     state: { blogPosts },
     deletePost,
+    getPosts,
   } = useContext(Context);
+
+  useEffect(() => {
+    getPosts();
+    const listener = navigation.addListener("didFocus", () => {
+      getPosts();
+    });
+    return () => {
+      listener.remove();
+    };
+  }, []);
 
   return (
     <View>
@@ -27,7 +38,7 @@ function IndexScreen({ navigation }) {
             <View style={styles.row}>
               <View>
                 <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.content} >{item.content}</Text>
+                <Text style={styles.content}>{item.content}</Text>
               </View>
               <TouchableOpacity onPress={() => deletePost(item.id)}>
                 <Feather style={styles.icon} name="trash" />

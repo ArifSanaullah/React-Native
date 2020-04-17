@@ -2,6 +2,7 @@ import {
   ADD_BLOG_POST,
   DELETE_BLOG_POST,
   EDIT_BLOG_POST,
+  GET_BLOG_POSTS,
 } from "../actionTypes";
 
 export const blogPostsReducer = (state, action) => {
@@ -26,6 +27,12 @@ export const blogPostsReducer = (state, action) => {
         blogPosts: state.blogPosts.map((post) =>
           post.id === action.payload.id ? action.payload : post
         ),
+      };
+
+    case GET_BLOG_POSTS:
+      return {
+        ...state,
+        blogPosts: action.payload.blogPosts,
       };
 
     default:
