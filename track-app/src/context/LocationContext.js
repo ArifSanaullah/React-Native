@@ -4,10 +4,18 @@ import {
   startRecording,
   stopRecording,
   addLocation,
+  changeName,
+  resetCreateTrackForm,
 } from "../actions/locationActions";
 
 export const { Context, Provider } = createDataContext(
   locationReducers,
-  { startRecording, stopRecording, addLocation },
-  { recording: false, locations: [], currentLocation: null }
+  {
+    startRecording,
+    stopRecording,
+    addLocation,
+    changeName,
+    resetCreateTrackForm,
+  },
+  { recording: false, locations: [], currentLocation: null, name: "" }
 );

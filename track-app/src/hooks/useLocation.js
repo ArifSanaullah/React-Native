@@ -7,33 +7,41 @@ import {
 
 const useLocation = (shouldTrack, cb) => {
   const [locationError, setLocationError] = useState(null);
-  const [subscriber, setSubscriber] = useState(null);
-
-  const startWatchingLocation = async () => {
-    try {
-      await requestPermissionsAsync();
-      const sub = await watchPositionAsync(
-        {
-          accuracy: Accuracy.BestForNavigation,
-          timeInterval: 1000,
-          distanceInterval: 10,
-        },
-        cb
-      );
-      setSubscriber(sub);
-    } catch (err) {
-      setLocationError(err);
-    }
-  };
 
   useEffect(() => {
+    let subscriber;
+    const startWatchingLocation = async () => {
+      try {
+        await requestPermissionsAsync();
+        const sub = await watchPositionAsync(
+          {
+            accuracy: Accuracy.BestForNavigation,
+            timeInterval: 1000,
+            distanceInterval: 10,
+          },
+          cb
+        );
+        subscriber = sub;
+      } catch (err) {
+        setLocationError(err);
+      }
+    };
+
     if (shouldTrack) {
       startWatchingLocation();
     } else {
-      subscriber.remove();
-      setSubscriber(null);
+      if (subscriber) {
+        subscriber.remove();
+      }
+      subscriber = null;
     }
-  }, [shouldTrack]);
+
+    return () => {
+      if (subscriber) {
+        subscriber.remove();
+      }
+    };
+  }, [shouldTrack, cb]);
 
   return [locationError];
 };

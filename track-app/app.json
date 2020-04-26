@@ -2,11 +2,8 @@
   "expo": {
     "name": "track-app",
     "slug": "track-app",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "description": "your app desc",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,11 +15,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.track.app"
     }
   }
 }
