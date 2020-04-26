@@ -10,10 +10,10 @@ import TrackCreateScreen from "./src/screens/TrackCreateScreen";
 import TrackDetailScreen from "./src/screens/TrackDetailScreen";
 import TrackListScreen from "./src/screens/TrackListScreen";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
-import { setNavigator } from "./src/navigationRef";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { Provider as LocationProvider } from "./src/context/LocationContext";
 import { Provider as TrackProvider } from "./src/context/TrackContext";
+import { setNavigator } from "./src/navigationRef";
 
 const trackListFlow = createStackNavigator({
   TrackList: TrackListScreen,
@@ -22,8 +22,29 @@ const trackListFlow = createStackNavigator({
 
 trackListFlow.navigationOptions = {
   title: "Tracks",
-  tabBarIcon: <FontAwesome name="th-list" size={20} />,
+  tabBarIcon: <FontAwesome name="th-list" size={20} style={{color:"#f8f8f7"}} />,
 };
+
+const mainFlow = createBottomTabNavigator(
+  {
+    trackListFlow,
+    TrackCreate: TrackCreateScreen,
+    Account: AccountScreen,
+  },
+  {
+    tabBarOptions: {
+      inactiveBackgroundColor: "#89818d",
+      activeBackgroundColor: "#cfcdd7",
+      activeTintColor: "#5b5a62",
+      inactiveTintColor: "#d7cabd",
+      style: {
+        borderTopWidth: 0,
+      },
+    },
+  }
+);
+
+// #f8f8f7  #cfcdd7 #a09db0 #89818d #5b5a62 #d7cabd
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuth: ResolveAuthScreen,
@@ -31,11 +52,7 @@ const switchNavigator = createSwitchNavigator({
     Signup: SignupScreen,
     Signin: SigninScreen,
   }),
-  mainFlow: createBottomTabNavigator({
-    trackListFlow,
-    TrackCreate: TrackCreateScreen,
-    Account: AccountScreen,
-  }),
+  mainFlow,
 });
 
 const App = createAppContainer(switchNavigator);
